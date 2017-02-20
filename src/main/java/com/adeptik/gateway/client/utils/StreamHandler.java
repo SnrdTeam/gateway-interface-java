@@ -5,6 +5,7 @@ import java.io.InputStream;
 
 public interface StreamHandler {
 
+    @SuppressWarnings("RedundantThrows")
     void handle(InputStream inputStream)
             throws IOException;
 }

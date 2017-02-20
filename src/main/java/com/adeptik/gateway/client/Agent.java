@@ -12,9 +12,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
+@SuppressWarnings("unused")
 public class Agent extends AccessRefreshGatewayClient {
 
     Agent(URL gatewayUrl, AccessServiceState state)
@@ -66,10 +66,7 @@ public class Agent extends AccessRefreshGatewayClient {
                 .build();
         try (Response response = createHttpClient().newCall(request).execute()) {
 
-            throwOnUnsuccessfulResponse(response);
-            try (InputStream bodyStream = response.body().byteStream()) {
-                resultHandler.handle(bodyStream);
-            }
+            readFileResponse(response, resultHandler);
         }
     }
 
@@ -84,10 +81,7 @@ public class Agent extends AccessRefreshGatewayClient {
                 .build();
         try (Response response = createHttpClient().newCall(request).execute()) {
 
-            throwOnUnsuccessfulResponse(response);
-            try (InputStream bodyStream = response.body().byteStream()) {
-                resultHandler.handle(bodyStream);
-            }
+            readFileResponse(response, resultHandler);
         }
     }
 

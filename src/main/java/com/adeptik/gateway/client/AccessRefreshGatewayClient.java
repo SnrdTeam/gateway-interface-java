@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@SuppressWarnings("WeakerAccess")
 public abstract class AccessRefreshGatewayClient extends GatewayClient<AccessServiceState> implements Closeable {
 
     private final String _accessSchemeWord;

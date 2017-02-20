@@ -10,6 +10,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.net.URL;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Solver extends GatewayClient<AccessState> {
 
     protected Solver(URL gatewayUrl, AccessState state)

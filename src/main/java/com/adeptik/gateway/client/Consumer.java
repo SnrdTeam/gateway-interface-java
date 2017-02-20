@@ -14,9 +14,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Consumer extends AccessRefreshGatewayClient {
 
     protected Consumer(URL gatewayUrl, AccessServiceState state)
@@ -93,16 +93,16 @@ public class Consumer extends AccessRefreshGatewayClient {
     public void getProblemSolution(long problemId, StreamHandler resultHandler)
             throws IOException, RequestException {
 
+        if (resultHandler == null)
+            throw new NullPointerException("resultHandler is null");
+
         Request request = createAuthorizedRequestBuilder(Routes.ProblemBaseUrl + "/" + problemId + "/solution")
                 .get()
                 .build();
 
         try (Response response = createHttpClient().newCall(request).execute()) {
 
-            throwOnUnsuccessfulResponse(response);
-            try (InputStream bodyStream = response.body().byteStream()) {
-                resultHandler.handle(bodyStream);
-            }
+            readFileResponse(response, resultHandler);
         }
     }
 }

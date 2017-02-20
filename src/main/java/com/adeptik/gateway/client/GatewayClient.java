@@ -4,6 +4,7 @@ import com.adeptik.gateway.client.exceptions.RequestException;
 import com.adeptik.gateway.client.model.AccessServiceState;
 import com.adeptik.gateway.client.model.AccessState;
 import com.adeptik.gateway.client.utils.MediaTypes;
+import com.adeptik.gateway.client.utils.StreamHandler;
 import com.adeptik.gateway.contracts.dto.FormFile;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
@@ -29,9 +30,10 @@ import java.util.Calendar;
 /**
  * Базовый класс клиента шлюза
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class GatewayClient<TState> {
 
-    @SuppressWarnings("Convert2Lambda")
+    @SuppressWarnings({"Convert2Lambda", "Guava"})
     private final Predicate<Field> PublicFieldPredicate = new Predicate<Field>() {
 
         @Override
@@ -199,6 +201,18 @@ public abstract class GatewayClient<TState> {
                 response,
                 new TypeToken<ArrayList<TItem>>() {
                 }.getType());
+    }
+
+    protected void readFileResponse(Response response, StreamHandler resultHandler)
+            throws RequestException, IOException {
+
+        if (resultHandler == null)
+            throw new NullPointerException("resultHandler is null");
+
+        throwOnUnsuccessfulResponse(response);
+        try (InputStream bodyStream = response.body().byteStream()) {
+            resultHandler.handle(bodyStream);
+        }
     }
 
     protected Gson createGson() {

@@ -25,6 +25,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class User extends AccessRefreshGatewayClient {
 
     protected User(URL gatewayUrl, AccessServiceState state)

@@ -1,7 +1,6 @@
 package com.adeptik.gateway.client;
 
 import com.adeptik.gateway.client.exceptions.RequestException;
-import com.adeptik.gateway.client.model.AccessServiceState;
 import com.adeptik.gateway.client.model.AccessState;
 import com.adeptik.gateway.contracts.Routes;
 import com.adeptik.gateway.contracts.dto.agents.PostAgentInputDTO;
@@ -14,6 +13,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.net.URL;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class AgentEnrollment extends GatewayClient<AccessState> {
 
     protected AgentEnrollment(URL gatewayUrl, AccessState accessState)
