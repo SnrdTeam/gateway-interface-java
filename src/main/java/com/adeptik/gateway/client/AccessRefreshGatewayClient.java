@@ -80,7 +80,7 @@ public abstract class AccessRefreshGatewayClient extends GatewayClient<AccessSer
             throw new RuntimeException(e);
         }
 
-        _refreshTimer.schedule(_refreshTimerTask, (_state.getAccessTokenValidTo() - now) / 2);
+        _refreshTimer.schedule(_refreshTimerTask, Math.max(500, (_state.getAccessTokenValidTo() - now) / 2));
     }
 
     private Request.Builder createAuthorizedRequestBuilder(String requestUri, String schemeWord, String token)

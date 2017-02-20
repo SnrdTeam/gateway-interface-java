@@ -12,6 +12,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 public class Agent extends AccessRefreshGatewayClient {
@@ -31,7 +32,7 @@ public class Agent extends AccessRefreshGatewayClient {
             throws IOException, RequestException {
 
         Request request = createAuthorizedRequestBuilder(Routes.AgentBaseUrl + "/state")
-                .post(createJsonRequestBody(postAgentStateInputDTO))
+                .post(createJsonRequestBody(postAgentStateInputDTO, PostAgentStateInputDTO.class))
                 .build();
         try (Response response = createHttpClient().newCall(request).execute()) {
 
@@ -66,7 +67,9 @@ public class Agent extends AccessRefreshGatewayClient {
         try (Response response = createHttpClient().newCall(request).execute()) {
 
             throwOnUnsuccessfulResponse(response);
-            resultHandler.handle(response.body().byteStream());
+            try (InputStream bodyStream = response.body().byteStream()) {
+                resultHandler.handle(bodyStream);
+            }
         }
     }
 
@@ -82,7 +85,9 @@ public class Agent extends AccessRefreshGatewayClient {
         try (Response response = createHttpClient().newCall(request).execute()) {
 
             throwOnUnsuccessfulResponse(response);
-            resultHandler.handle(response.body().byteStream());
+            try (InputStream bodyStream = response.body().byteStream()) {
+                resultHandler.handle(bodyStream);
+            }
         }
     }
 
@@ -90,7 +95,7 @@ public class Agent extends AccessRefreshGatewayClient {
             throws IOException, RequestException {
 
         Request request = createAuthorizedRequestBuilder(Routes.AgentBaseUrl + "/algorithm/" + algorithmId)
-                .put(createJsonRequestBody(putAlgorithmStateDTO))
+                .put(createJsonRequestBody(putAlgorithmStateDTO, PutAlgorithmStateDTO.class))
                 .build();
 
         try (Response response = createHttpClient().newCall(request).execute()) {

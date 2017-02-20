@@ -58,7 +58,7 @@ public class User extends AccessRefreshGatewayClient {
                         this.HashedPassword = hashedPassword;
                         this.Salt = salt;
                     }
-                }))
+                }, SignInInputDTO.class))
                 .build();
 
         try (Response response = createHttpClient().newCall(request).execute()) {
@@ -75,7 +75,7 @@ public class User extends AccessRefreshGatewayClient {
             throws IOException, RequestException {
 
         Request request = createAuthorizedRequestBuilder(Routes.UserBaseUrl)
-                .post(createJsonRequestBody(userRegisterDTO))
+                .post(createJsonRequestBody(userRegisterDTO, UserRegisterDTO.class))
                 .build();
 
         try (Response response = createHttpClient().newCall(request).execute()) {
@@ -88,7 +88,7 @@ public class User extends AccessRefreshGatewayClient {
             throws IOException, RequestException {
 
         Request request = createAuthorizedRequestBuilder(Routes.UserBaseUrl + "/" + userName)
-                .patch(createJsonRequestBody(patchUserDTO))
+                .patch(createJsonRequestBody(patchUserDTO, PatchUserDTO.class))
                 .build();
 
         try (Response response = createHttpClient().newCall(request).execute()) {
@@ -140,7 +140,7 @@ public class User extends AccessRefreshGatewayClient {
             throws IOException, RequestException {
 
         Request request = createAuthorizedRequestBuilder(Routes.AgentEnrollmentBaseUrl + "/settings")
-                .put(createJsonRequestBody(agentEnrollmentSettingsDTO))
+                .put(createJsonRequestBody(agentEnrollmentSettingsDTO, AgentEnrollmentSettingsDTO.class))
                 .build();
 
         try (Response response = createHttpClient().newCall(request).execute()) {
@@ -166,7 +166,7 @@ public class User extends AccessRefreshGatewayClient {
             throws IOException, RequestException {
 
         Request request = createAuthorizedRequestBuilder(Routes.AgentEnrollmentBaseUrl + "/" + agentEnrollmentId)
-                .patch(createJsonRequestBody(patchAgentEnrollmentDTO))
+                .patch(createJsonRequestBody(patchAgentEnrollmentDTO, PatchAgentEnrollmentDTO.class))
                 .build();
 
         try (Response response = createHttpClient().newCall(request).execute()) {
@@ -218,7 +218,7 @@ public class User extends AccessRefreshGatewayClient {
             throws IOException, RequestException {
 
         Request request = createAuthorizedRequestBuilder(Routes.ConsumerBaseUrl)
-                .post(createJsonRequestBody(postConsumerInputDTO))
+                .post(createJsonRequestBody(postConsumerInputDTO, PostConsumerInputDTO.class))
                 .build();
 
         try (Response response = createHttpClient().newCall(request).execute()) {
@@ -231,7 +231,7 @@ public class User extends AccessRefreshGatewayClient {
             throws IOException, RequestException {
 
         Request request = createAuthorizedRequestBuilder(Routes.ConsumerBaseUrl + "/" + consumerId)
-                .patch(createJsonRequestBody(patchConsumerDTO))
+                .patch(createJsonRequestBody(patchConsumerDTO, PatchConsumerDTO.class))
                 .build();
 
         try (Response response = createHttpClient().newCall(request).execute()) {

@@ -28,7 +28,7 @@ public class AgentEnrollment extends GatewayClient<AccessState> {
         long now = now();
 
         Request request = createRequestBuilder(Routes.AgentEnrollmentBaseUrl)
-                .post(createJsonRequestBody(postAgentEnrollmentInputDTO))
+                .post(createJsonRequestBody(postAgentEnrollmentInputDTO, PostAgentEnrollmentInputDTO.class))
                 .build();
         try (Response response = createHttpClient().newCall(request).execute()) {
 
@@ -38,26 +38,19 @@ public class AgentEnrollment extends GatewayClient<AccessState> {
         }
     }
 
-    public AccessServiceState enroll(PostAgentInputDTO postAgentInputDTO)
+    public AccessRefreshTokensDTO enroll(PostAgentInputDTO postAgentInputDTO)
             throws IOException, RequestException {
 
         long now = now();
 
         Request request = createRequestBuilder(Routes.AgentBaseUrl)
                 .addHeader("Authorization", "x-agent-enroll " + _state.getAccessToken())
-                .post(createJsonRequestBody(postAgentInputDTO))
+                .post(createJsonRequestBody(postAgentInputDTO, PostAgentInputDTO.class))
                 .build();
 
         try (Response response = createHttpClient().newCall(request).execute()) {
 
-            AccessRefreshTokensDTO tokens = readJsonResponse(response, AccessRefreshTokensDTO.class);
-
-            AccessServiceState result = new AccessServiceState();
-            result.setAccessToken(tokens.Access.Token);
-            result.setAccessTokenValidTo(now + tokens.Access.ExpiresIn);
-            result.setServiceToken(tokens.Service.Token);
-            result.setServiceTokenValidTo(now + tokens.Service.ExpiresIn);
-            return result;
+            return readJsonResponse(response, AccessRefreshTokensDTO.class);
         }
     }
 }

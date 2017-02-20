@@ -5,6 +5,7 @@ import com.adeptik.gateway.client.model.AccessServiceState;
 import com.adeptik.gateway.client.model.AccessState;
 import com.adeptik.gateway.client.utils.MediaTypes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import okhttp3.OkHttpClient;
@@ -94,9 +95,9 @@ public abstract class GatewayClient<TState> {
             throw new RequestException(response.code(), response.message());
     }
 
-    protected <T> RequestBody createJsonRequestBody(T bodyObject) {
+    protected <T, TValue extends T> RequestBody createJsonRequestBody(TValue bodyObject, Class<T> valueType) {
 
-        return RequestBody.create(MediaTypes.JSON, createGson().toJson(bodyObject));
+        return RequestBody.create(MediaTypes.JSON, createGson().toJson(bodyObject, valueType));
     }
 
     protected RequestBody createEmptyRequestBody() {
@@ -124,7 +125,9 @@ public abstract class GatewayClient<TState> {
     }
 
     protected Gson createGson() {
-        return new Gson();
+
+        return new GsonBuilder()
+                .create();
     }
 
     protected long now() {
