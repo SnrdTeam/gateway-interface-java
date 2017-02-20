@@ -28,25 +28,29 @@ import java.util.Random;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class User extends AccessRefreshGatewayClient {
 
-    protected User(URL gatewayUrl, AccessServiceState state)
-            throws InstantiationException, IllegalAccessException {
+    protected User(URL gatewayUrl, AccessServiceState state) {
 
         super(gatewayUrl, state, Routes.UserBaseUrl + "/token", "x-user", "x-user-service");
     }
 
     protected User(URL gatewayUrl, String userName, String password)
-            throws IllegalAccessException, InstantiationException, NoSuchAlgorithmException, IOException, RequestException {
+            throws IOException, RequestException {
 
         this(gatewayUrl, new AccessServiceState());
         signIn(userName, password);
     }
 
     private void signIn(String userName, String password)
-            throws IOException, NoSuchAlgorithmException, RequestException {
+            throws IOException, RequestException {
 
         long now = now();
 
-        MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+        MessageDigest sha256 = null;
+        try {
+            sha256 = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new UnsupportedOperationException(e);
+        }
         byte[] passwordHash = sha256.digest(password.getBytes("UTF-8"));
         byte[] salt = new byte[16];
         new Random().nextBytes(salt);

@@ -46,8 +46,7 @@ public abstract class GatewayClient<TState> {
     private final URL _gatewayUrl;
     protected final TState _state;
 
-    protected GatewayClient(URL gatewayUrl, TState state, Class<TState> stateClass)
-            throws IllegalAccessException, InstantiationException {
+    protected GatewayClient(URL gatewayUrl, TState state, Class<TState> stateClass) {
 
         if (gatewayUrl == null)
             throw new IllegalArgumentException("gatewayUrl could not be null");
@@ -55,11 +54,18 @@ public abstract class GatewayClient<TState> {
             throw new IllegalArgumentException("stateClass could not be null");
 
         _gatewayUrl = gatewayUrl;
-        _state = state != null ? state : stateClass.newInstance();
+        try {
+
+            _state = state != null ? state : stateClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new IllegalArgumentException("stateClass is invalid. Could not create new instance", e);
+        }
     }
 
     /**
      * Возвращает состояние клиента
+     *
+     * @return Объект, содержащий состояние клиента
      */
     public TState getState() {
         return _state;
@@ -72,35 +78,29 @@ public abstract class GatewayClient<TState> {
      * @param gatewayUrl Адрес шлюза
      * @param state      Состояние клиента
      * @return Клиент шлюза от имени потенциального агента
-     * @throws InstantiationException Невозможно создать экземпляр объекта состояния
-     * @throws IllegalAccessException Невозможно создать экземпляр объекта состояния
      */
-    public static AgentEnrollment asAgentEnrollment(URL gatewayUrl, AccessState state)
-            throws InstantiationException, IllegalAccessException {
+    public static AgentEnrollment asAgentEnrollment(URL gatewayUrl, AccessState state) {
 
         return new AgentEnrollment(gatewayUrl, state);
     }
 
-    public static Agent asAgent(URL gatewayUrl, AccessServiceState state)
-            throws InstantiationException, IllegalAccessException {
+    public static Agent asAgent(URL gatewayUrl, AccessServiceState state) {
 
         return new Agent(gatewayUrl, state);
     }
 
-    public static User asUser(URL gatewayUrl, AccessServiceState state)
-            throws IllegalAccessException, InstantiationException {
+    public static User asUser(URL gatewayUrl, AccessServiceState state) {
 
         return new User(gatewayUrl, state);
     }
 
     public static User asUser(URL gatewayUrl, String userName, String password)
-            throws NoSuchAlgorithmException, IOException, InstantiationException, RequestException, IllegalAccessException {
+            throws NoSuchAlgorithmException, IOException, RequestException {
 
         return new User(gatewayUrl, userName, password);
     }
 
-    public static Consumer asConsumer(URL gatewayUrl, AccessServiceState state)
-            throws IllegalAccessException, InstantiationException {
+    public static Consumer asConsumer(URL gatewayUrl, AccessServiceState state) {
 
         return new Consumer(gatewayUrl, state);
     }

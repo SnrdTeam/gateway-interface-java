@@ -19,8 +19,7 @@ import java.net.URL;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Consumer extends AccessRefreshGatewayClient {
 
-    protected Consumer(URL gatewayUrl, AccessServiceState state)
-            throws InstantiationException, IllegalAccessException {
+    protected Consumer(URL gatewayUrl, AccessServiceState state) {
 
         super(gatewayUrl, state, Routes.ConsumerBaseUrl + "/token", "x-consumer", "x-consumer-service");
     }

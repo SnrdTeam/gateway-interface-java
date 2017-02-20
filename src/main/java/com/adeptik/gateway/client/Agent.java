@@ -17,8 +17,7 @@ import java.net.URL;
 @SuppressWarnings("unused")
 public class Agent extends AccessRefreshGatewayClient {
 
-    Agent(URL gatewayUrl, AccessServiceState state)
-            throws IllegalAccessException, InstantiationException {
+    Agent(URL gatewayUrl, AccessServiceState state) {
 
         super(
                 gatewayUrl,

@@ -33,8 +33,7 @@ public abstract class AccessRefreshGatewayClient extends GatewayClient<AccessSer
                                          AccessServiceState state,
                                          String refreshTokenUri,
                                          String accessSchemeWord,
-                                         String serviceSchemeWord)
-            throws InstantiationException, IllegalAccessException {
+                                         String serviceSchemeWord) {
 
         super(gatewayUrl, state, AccessServiceState.class);
 
@@ -66,6 +65,7 @@ public abstract class AccessRefreshGatewayClient extends GatewayClient<AccessSer
 
         try {
             Request request = createAuthorizedRequestBuilder(_refreshTokenUri, _serviceSchemeWord, _state.getServiceToken())
+                    .post(createEmptyRequestBody())
                     .build();
             try (Response response = createHttpClient().newCall(request).execute()) {
 

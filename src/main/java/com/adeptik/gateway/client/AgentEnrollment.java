@@ -16,8 +16,7 @@ import java.net.URL;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class AgentEnrollment extends GatewayClient<AccessState> {
 
-    protected AgentEnrollment(URL gatewayUrl, AccessState accessState)
-            throws IllegalAccessException, InstantiationException {
+    protected AgentEnrollment(URL gatewayUrl, AccessState accessState) {
 
         super(gatewayUrl, accessState, AccessState.class);
     }
