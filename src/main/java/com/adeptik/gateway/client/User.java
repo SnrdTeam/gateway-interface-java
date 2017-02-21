@@ -74,6 +74,8 @@ public class User extends AccessRefreshGatewayClient {
             _state.setServiceToken(tokens.Service.Token);
             _state.setServiceTokenValidTo(now + tokens.Service.ExpiresIn);
         }
+
+        onStateChanged();
     }
 
     public void postUser(UserRegisterDTO userRegisterDTO)

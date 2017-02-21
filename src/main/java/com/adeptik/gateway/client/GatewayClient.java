@@ -46,6 +46,8 @@ public abstract class GatewayClient<TState> {
     private final URL _gatewayUrl;
     protected final TState _state;
 
+    private StateHandler _stateHandler;
+
     protected GatewayClient(URL gatewayUrl, TState state, Class<TState> stateClass) {
 
         if (gatewayUrl == null)
@@ -69,6 +71,18 @@ public abstract class GatewayClient<TState> {
      */
     public TState getState() {
         return _state;
+    }
+
+    public void setStateHandler(StateHandler stateHandler) {
+
+        _stateHandler = stateHandler;
+    }
+
+    protected void onStateChanged()
+            throws IOException {
+
+        if (_stateHandler != null)
+            _stateHandler.onStateChanged();
     }
 
 
@@ -224,5 +238,10 @@ public abstract class GatewayClient<TState> {
     protected long now() {
 
         return Calendar.getInstance().getTimeInMillis();
+    }
+
+    public interface StateHandler {
+
+        void onStateChanged() throws IOException;
     }
 }

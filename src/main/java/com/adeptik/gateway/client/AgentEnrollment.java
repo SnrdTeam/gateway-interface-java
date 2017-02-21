@@ -35,6 +35,8 @@ public class AgentEnrollment extends GatewayClient<AccessState> {
             _state.setAccessToken(token.Token);
             _state.setAccessTokenValidTo(now + token.ExpiresIn);
         }
+
+        onStateChanged();
     }
 
     public AccessRefreshTokensDTO enroll(PostAgentInputDTO postAgentInputDTO)

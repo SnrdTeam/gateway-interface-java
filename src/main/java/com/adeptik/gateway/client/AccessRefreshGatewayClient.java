@@ -76,6 +76,8 @@ public abstract class AccessRefreshGatewayClient extends GatewayClient<AccessSer
                     _state.setServiceToken(tokens.Service.Token);
                     _state.setServiceTokenValidTo(now + tokens.Service.ExpiresIn);
                 }
+
+                onStateChanged();
             }
         } catch (IOException | RequestException e) {
             throw new RuntimeException(e);
