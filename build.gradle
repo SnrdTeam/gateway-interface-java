@@ -3,9 +3,11 @@ version '1.0.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply from: 'https://raw.githubusercontent.com/SnrdTeam/gradle-utils/master/ossrh-publish.gradle'
+apply from: 'https://raw.githubusercontent.com/SnrdTeam/gradle-utils/master/java-extensions.gradle'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+javaExtensions.setDefaultEncoding("UTF-8")
 
 repositories {
 
@@ -56,12 +58,4 @@ uploadArchives {
             }
         }
     }
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
-tasks.withType(Javadoc) {
-    options.encoding = 'UTF-8'
 }
