@@ -1,75 +1,30 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
-    }
-}
-
 group 'com.adeptik'
 version '1.0.0-SNAPSHOT'
 
 apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'signing'
-apply plugin: 'io.codearte.nexus-staging'
+apply from: 'https://raw.githubusercontent.com/SnrdTeam/gradle-utils/master/ossrh-publish.gradle'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    mavenCentral()
 
-    if (!isRelease())
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+    mavenCentral()
 }
 
 dependencies {
+
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.google.guava:guava:19.0'
     compile 'com.adeptik:GatewayContracts:1.0.1-SNAPSHOT'
 }
 
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives javadocJar, sourcesJar
-}
-
-if (isRelease())
-    signing {
-        sign configurations.archives
-    }
-
 uploadArchives {
+
     repositories {
+
         mavenDeployer {
-
-            if (isRelease())
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            def ossrhUsername = project.hasProperty("ossrhUsername") ? project.property("ossrhUsername") : null
-            def ossrhPassword = project.hasProperty("ossrhPassword") ? project.property("ossrhPassword") : null
-
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
 
             pom.project {
                 name 'Agent Network Gateway Interface for Java'
@@ -103,20 +58,10 @@ uploadArchives {
     }
 }
 
-nexusStaging {
-    numberOfRetries = 10
-    delayBetweenRetriesInMillis = 5000
-}
-
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
 tasks.withType(Javadoc) {
     options.encoding = 'UTF-8'
-}
-
-def isRelease() {
-
-    !version.contains("SNAPSHOT")
 }
