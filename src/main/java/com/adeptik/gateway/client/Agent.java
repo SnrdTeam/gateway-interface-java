@@ -8,6 +8,9 @@ import com.adeptik.gateway.contracts.dto.agents.AgentJobDTO;
 import com.adeptik.gateway.contracts.dto.agents.PostAgentStateInputDTO;
 import com.adeptik.gateway.contracts.dto.agents.PutAlgorithmStateDTO;
 import com.adeptik.gateway.contracts.dto.security.TokenDTO;
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.FluentIterable;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -59,8 +62,18 @@ public class Agent extends AccessRefreshGatewayClient {
         if (resultHandler == null)
             throw new NullPointerException("resultHandler is null");
 
+        //noinspection Guava,Convert2Lambda
+        String runtimesQuery = Joiner.on("&")
+                .join(FluentIterable.of(runtimes)
+                        .transform(new Function<String, String>() {
+
+                            @Override
+                            public String apply(String runtime) {
+                                return "runtimes=" + runtime;
+                            }
+                        }));
         Request request = createAuthorizedRequestBuilder(
-                Routes.AlgorithmBaseUrl + "/" + algorithmId + "/definition?runtimes=" + String.join(",", runtimes))
+                Routes.AlgorithmBaseUrl + "/" + algorithmId + "/definition?" + runtimesQuery)
                 .get()
                 .build();
         try (Response response = createHttpClient().newCall(request).execute()) {
