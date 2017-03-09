@@ -1,2 +1,3 @@
-rootProject.name = 'GatewayInterface'
+include 'GatewayInterface'
+include 'GatewayContracts'
 

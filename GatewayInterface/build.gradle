@@ -1,0 +1,61 @@
+group 'com.adeptik'
+version '1.0.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply from: 'https://raw.githubusercontent.com/SnrdTeam/gradle-utils/master/ossrh-publish.gradle'
+apply from: 'https://raw.githubusercontent.com/SnrdTeam/gradle-utils/master/java-extensions.gradle'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+javaExtensions.setDefaultEncoding("UTF-8")
+
+repositories {
+
+    mavenCentral()
+}
+
+dependencies {
+
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.google.guava:guava:19.0'
+    compile project(':GatewayContracts')
+}
+
+uploadArchives {
+
+    repositories {
+
+        mavenDeployer {
+
+            pom.project {
+                name 'Agent Network Gateway Interface for Java'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'Agent Network Gateway API Client library.'
+                url 'https://github.com/SnrdTeam/gateway-interface-java'
+
+                scm {
+                    connection 'scm:git:git://github.com/SnrdTeam/gateway-interface-java.git'
+                    developerConnection 'scm:git:ssh://github.com:SnrdTeam/gateway-interface-java.git'
+                    url 'https://github.com/SnrdTeam/gateway-interface-java.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'adeptik'
+                        name 'Adeptik'
+                        email 'infocorp@adeptik.com'
+                    }
+                }
+            }
+        }
+    }
+}

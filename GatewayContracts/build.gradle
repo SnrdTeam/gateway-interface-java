@@ -1,5 +1,6 @@
+
 group 'com.adeptik'
-version '1.0.0-SNAPSHOT'
+version '1.0.1-SNAPSHOT'
 
 apply plugin: 'java'
 apply from: 'https://raw.githubusercontent.com/SnrdTeam/gradle-utils/master/ossrh-publish.gradle'
@@ -16,10 +17,6 @@ repositories {
 
 dependencies {
 
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.google.guava:guava:19.0'
-    compile 'com.adeptik:GatewayContracts:1.0.1-SNAPSHOT'
 }
 
 uploadArchives {
@@ -29,11 +26,11 @@ uploadArchives {
         mavenDeployer {
 
             pom.project {
-                name 'Agent Network Gateway Interface for Java'
+                name 'Agent Network Gateway Contracts'
                 packaging 'jar'
                 // optionally artifactId can be defined here
-                description 'Agent Network Gateway API Client library.'
-                url 'https://github.com/SnrdTeam/gateway-interface-java'
+                description 'Library containing models for Agent Network Gateway API.'
+                url 'https://github.com/SnrdTeam/gateway-interface-java/tree/main/GatewayContracts'
 
                 scm {
                     connection 'scm:git:git://github.com/SnrdTeam/gateway-interface-java.git'
