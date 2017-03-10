@@ -5,6 +5,7 @@ import com.adeptik.gateway.client.model.AccessServiceState;
 import com.adeptik.gateway.client.utils.StreamHandler;
 import com.adeptik.gateway.contracts.Routes;
 import com.adeptik.gateway.contracts.dto.agents.AgentJobDTO;
+import com.adeptik.gateway.contracts.dto.agents.PatchAssignmentDTO;
 import com.adeptik.gateway.contracts.dto.agents.PostAgentStateInputDTO;
 import com.adeptik.gateway.contracts.dto.agents.PutAlgorithmStateDTO;
 import com.adeptik.gateway.contracts.dto.security.TokenDTO;
@@ -42,15 +43,27 @@ public class Agent extends AccessRefreshGatewayClient {
         }
     }
 
-    public TokenDTO acceptAssignment()
+    public TokenDTO acceptAssignment(long problemId)
             throws IOException, RequestException {
 
-        Request request = createAuthorizedRequestBuilder(Routes.AgentBaseUrl + "/assignment/accept")
-                .patch(createEmptyRequestBody())
+        Request request = createAuthorizedRequestBuilder(Routes.AgentBaseUrl + "/problem/" + problemId + "/assignment/accept")
+                .put(createEmptyRequestBody())
                 .build();
         try (Response response = createHttpClient().newCall(request).execute()) {
 
             return readJsonResponse(response, TokenDTO.class);
+        }
+    }
+
+    public void patchAssignment(long problemId, PatchAssignmentDTO patchAssignmentDTO)
+            throws IOException, RequestException {
+
+        Request request = createAuthorizedRequestBuilder(Routes.AgentBaseUrl + "/problem/" + problemId + "/assignment")
+                .patch(createJsonRequestBody(patchAssignmentDTO, PatchAssignmentDTO.class))
+                .build();
+        try (Response response = createHttpClient().newCall(request).execute()) {
+
+            throwOnUnsuccessfulResponse(response);
         }
     }
 
