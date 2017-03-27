@@ -1,6 +1,6 @@
-# Gateway Contracts for Java
+# Gateway Interface for Java
 
-Библиотека Java, содержащая контракты *Шлюза* для Java.
+Библиотека Java, содержащая реализацию интерфейса *Шлюза* для Java.
 
 ## Использование
 
@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.adeptik:GatewayContracts:1.0.1'
+    compile 'com.adeptik:GatewayInterface:1.0.0'
 }
 ```
 
