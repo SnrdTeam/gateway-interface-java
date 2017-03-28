@@ -10,7 +10,7 @@ import com.adeptik.gateway.contracts.dto.consumers.PostConsumerInputDTO;
 import com.adeptik.gateway.contracts.dto.enrollment.AgentEnrollmentSettingsDTO;
 import com.adeptik.gateway.contracts.dto.enrollment.GetAgentEnrollmentDTO;
 import com.adeptik.gateway.contracts.dto.enrollment.PatchAgentEnrollmentDTO;
-import com.adeptik.gateway.contracts.dto.security.AccessRefreshTokensDTO;
+import com.adeptik.gateway.contracts.dto.security.AccessServiceTokensDTO;
 import com.adeptik.gateway.contracts.dto.users.GetUserDTO;
 import com.adeptik.gateway.contracts.dto.users.PatchUserDTO;
 import com.adeptik.gateway.contracts.dto.users.SignInInputDTO;
@@ -94,7 +94,7 @@ public class User extends AccessRefreshGatewayClient {
 
         try (Response response = createHttpClient().newCall(request).execute()) {
 
-            AccessRefreshTokensDTO tokens = readJsonResponse(response, AccessRefreshTokensDTO.class);
+            AccessServiceTokensDTO tokens = readJsonResponse(response, AccessServiceTokensDTO.class);
             _state.setAccessToken(tokens.Access.Token);
             _state.setAccessTokenValidTo(now + tokens.Access.ExpiresIn);
             _state.setServiceToken(tokens.Service.Token);
@@ -334,7 +334,7 @@ public class User extends AccessRefreshGatewayClient {
      * @throws IOException      Ошибка ввода-вывода
      * @throws RequestException Ошибка при выполнеии HTTP-запроса
      */
-    public AccessRefreshTokensDTO postConsumer(PostConsumerInputDTO postConsumerInputDTO)
+    public AccessServiceTokensDTO postConsumer(PostConsumerInputDTO postConsumerInputDTO)
             throws IOException, RequestException {
 
         Request request = createAuthorizedRequestBuilder(Routes.ConsumerBaseUrl)
@@ -343,7 +343,7 @@ public class User extends AccessRefreshGatewayClient {
 
         try (Response response = createHttpClient().newCall(request).execute()) {
 
-            return readJsonResponse(response, AccessRefreshTokensDTO.class);
+            return readJsonResponse(response, AccessServiceTokensDTO.class);
         }
     }
 

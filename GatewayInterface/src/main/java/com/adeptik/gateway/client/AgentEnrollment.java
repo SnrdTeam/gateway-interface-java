@@ -5,7 +5,7 @@ import com.adeptik.gateway.client.model.AccessState;
 import com.adeptik.gateway.contracts.Routes;
 import com.adeptik.gateway.contracts.dto.agents.PostAgentInputDTO;
 import com.adeptik.gateway.contracts.dto.enrollment.PostAgentEnrollmentInputDTO;
-import com.adeptik.gateway.contracts.dto.security.AccessRefreshTokensDTO;
+import com.adeptik.gateway.contracts.dto.security.AccessServiceTokensDTO;
 import com.adeptik.gateway.contracts.dto.security.TokenDTO;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -63,7 +63,7 @@ public class AgentEnrollment extends GatewayClient<AccessState> {
      * @throws IOException      Ошибка ввода-вывода
      * @throws RequestException Ошибка при выполнеии HTTP-запроса
      */
-    public AccessRefreshTokensDTO enroll(PostAgentInputDTO postAgentInputDTO)
+    public AccessServiceTokensDTO enroll(PostAgentInputDTO postAgentInputDTO)
             throws IOException, RequestException {
 
         long now = now();
@@ -75,7 +75,7 @@ public class AgentEnrollment extends GatewayClient<AccessState> {
 
         try (Response response = createHttpClient().newCall(request).execute()) {
 
-            return readJsonResponse(response, AccessRefreshTokensDTO.class);
+            return readJsonResponse(response, AccessServiceTokensDTO.class);
         }
     }
 }

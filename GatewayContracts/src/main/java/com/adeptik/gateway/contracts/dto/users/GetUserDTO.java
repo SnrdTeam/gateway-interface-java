@@ -6,7 +6,7 @@ package com.adeptik.gateway.contracts.dto.users;
 public class GetUserDTO {
 
     /**
-     * Логин пользователя
+     * Имя (логин) пользователя
      */
     public String Name;
 

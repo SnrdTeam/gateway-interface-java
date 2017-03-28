@@ -3,6 +3,7 @@ package com.adeptik.gateway.contracts.model;
 /**
  * Состояние назначения задачи агенту
  */
+@SuppressWarnings("unused")
 public enum ProblemAssignmentState {
 
     /**

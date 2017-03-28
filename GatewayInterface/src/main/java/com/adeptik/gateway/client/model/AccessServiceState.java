@@ -1,6 +1,6 @@
 package com.adeptik.gateway.client.model;
 
-import com.adeptik.gateway.contracts.dto.security.AccessRefreshTokensDTO;
+import com.adeptik.gateway.contracts.dto.security.AccessServiceTokensDTO;
 
 /**
  * Состояние клиента Шлюза, имеющего служебный токен для обновления токена доступа
@@ -54,7 +54,7 @@ public class AccessServiceState extends AccessState {
      * @param now    Отметка времени, относительно которой рассчитывается срок действия токена
      * @return Экземпляр класса {@link AccessServiceState}
      */
-    public static AccessServiceState from(AccessRefreshTokensDTO tokens, long now) {
+    public static AccessServiceState from(AccessServiceTokensDTO tokens, long now) {
 
         if (tokens == null)
             throw new NullPointerException("tokens cannot be null");

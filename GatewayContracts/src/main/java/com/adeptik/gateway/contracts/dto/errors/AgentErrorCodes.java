@@ -3,10 +3,7 @@ package com.adeptik.gateway.contracts.dto.errors;
 /**
  * Коды ошибок, связанные с агентами
  */
+@SuppressWarnings("unused")
 public final class AgentErrorCodes {
 
-    /**
-     * Время решения задачи истекло
-     */
-    public static final int ProblemExecutionHasExpired = 1;
 }

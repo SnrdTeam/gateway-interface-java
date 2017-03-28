@@ -3,12 +3,13 @@ package com.adeptik.gateway.contracts.dto.errors;
 /**
  * Коды ошибок, связанные с задачами
  */
+@SuppressWarnings("unused")
 public final class ProblemErrorCodes {
 
     /**
-     * Указанный алгоритм не найден
+     * Задача не найдена
      */
-    public static final int AlgorithmNotFound = 1;
+    public static final int ProblemNotFound = 1;
 
     /**
      * Решение указанной задачи не найдено

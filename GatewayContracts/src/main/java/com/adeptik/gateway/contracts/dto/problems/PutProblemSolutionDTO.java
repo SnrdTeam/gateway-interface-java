@@ -6,6 +6,7 @@ import com.adeptik.gateway.contracts.model.SolutionStatus;
 /**
  * Решение задачи
  */
+@SuppressWarnings("unused")
 public class PutProblemSolutionDTO {
 
     /**
@@ -14,7 +15,7 @@ public class PutProblemSolutionDTO {
     public FormFile Solution;
 
     /**
-     * Является ли предоставленное решение окончательным (иначе - промежуточным)
+     * Статус решения задачи
      */
     public SolutionStatus SolutionStatus;
 }

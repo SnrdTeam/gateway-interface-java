@@ -2,7 +2,7 @@ package com.adeptik.gateway.client;
 
 import com.adeptik.gateway.client.exceptions.RequestException;
 import com.adeptik.gateway.client.model.AccessServiceState;
-import com.adeptik.gateway.contracts.dto.security.AccessRefreshTokensDTO;
+import com.adeptik.gateway.contracts.dto.security.AccessServiceTokensDTO;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -92,7 +92,7 @@ public abstract class AccessRefreshGatewayClient extends GatewayClient<AccessSer
                     .build();
             try (Response response = createHttpClient().newCall(request).execute()) {
 
-                AccessRefreshTokensDTO tokens = readJsonResponse(response, AccessRefreshTokensDTO.class);
+                AccessServiceTokensDTO tokens = readJsonResponse(response, AccessServiceTokensDTO.class);
                 synchronized (_state) {
                     _state.setAccessToken(tokens.Access.Token);
                     _state.setAccessTokenValidTo(now + tokens.Access.ExpiresIn);

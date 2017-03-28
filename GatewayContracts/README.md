@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.adeptik:GatewayContracts:1.0.1'
+    compile 'com.adeptik:GatewayContracts:1.0.2'
 }
 ```
 

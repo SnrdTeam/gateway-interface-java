@@ -1,13 +1,23 @@
 package com.adeptik.gateway.contracts.dto.agents;
 
-public class GetAgentDTO
-{
+/**
+ * Данные агента
+ */
+@SuppressWarnings("unused")
+public class GetAgentDTO {
 
-    public long Id ;
+    /**
+     * Уникальный идентификатор агента
+     */
+    public long Id;
 
+    /**
+     * Имя агента
+     */
+    public String Name;
 
-    public String Name ;
-
-
-    public boolean IsAvailable ;
+    /**
+     * Признак доступности агента. Определяется по временной метке последнего доступа агента к шлюзу.
+     */
+    public boolean IsAvailable;
 }

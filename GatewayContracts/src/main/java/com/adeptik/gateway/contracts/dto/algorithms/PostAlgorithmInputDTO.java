@@ -4,7 +4,7 @@ package com.adeptik.gateway.contracts.dto.algorithms;
 import com.adeptik.gateway.contracts.dto.FormFile;
 
 /**
- * Данные создаваемого в шлюзе алгоритма
+ * Данные создаваемого в шлюзе алгоритме
  */
 public class PostAlgorithmInputDTO {
 

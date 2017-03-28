@@ -3,7 +3,7 @@ package com.adeptik.gateway.contracts.dto.problems;
 import com.adeptik.gateway.contracts.dto.FormFile;
 
 /**
- * Данные новой задачи
+ * Данные добавляемой задачи
  */
 public class PostProblemInputDTO {
 
@@ -22,6 +22,9 @@ public class PostProblemInputDTO {
      */
     public Long MaxExecutionDuration;
 
+    /**
+     * Максимальное количество агентов, которые необходимо задействовать в решении задачи
+     */
     public Integer MaxAssignments;
 }
 
