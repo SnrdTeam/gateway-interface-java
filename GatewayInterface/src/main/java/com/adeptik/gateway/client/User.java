@@ -25,14 +25,32 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
+/**
+ * Клиент Шлюза от имени Пользователя
+ */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class User extends AccessRefreshGatewayClient {
 
+    /**
+     * Создание экземпляра класса {@link User}
+     *
+     * @param gatewayUrl Адрес Шлюза
+     * @param state      Состояние клиента Шлюза
+     */
     protected User(URL gatewayUrl, AccessServiceState state) {
 
         super(gatewayUrl, state, Routes.UserBaseUrl + "/token", "x-user", "x-user-service");
     }
 
+    /**
+     * Создание экземпляра класса {@link User}
+     *
+     * @param gatewayUrl Адрес Шлюза
+     * @param userName   Имя Пользователя для авторизации в Шлюзе
+     * @param password   Пароль Пользователя для авторизации в Шлюзе
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     protected User(URL gatewayUrl, String userName, String password)
             throws IOException, RequestException {
 
@@ -40,6 +58,14 @@ public class User extends AccessRefreshGatewayClient {
         signIn(userName, password);
     }
 
+    /**
+     * Авторизация Пользователя для данного экземпляра клиента Шлюза от имени Пользователя
+     *
+     * @param userName Имя Пользователя для авторизации в Шлюзе
+     * @param password Пароль Пользователя для авторизации в Шлюзе
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     private void signIn(String userName, String password)
             throws IOException, RequestException {
 
@@ -78,6 +104,13 @@ public class User extends AccessRefreshGatewayClient {
         onStateChanged();
     }
 
+    /**
+     * Регистрация нового Пользователя
+     *
+     * @param userRegisterDTO Данные регистрируемого Пользователя
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public void postUser(UserRegisterDTO userRegisterDTO)
             throws IOException, RequestException {
 
@@ -91,6 +124,14 @@ public class User extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Обновление данных Пользователя
+     *
+     * @param userName     Имя обновляемого Пользователя
+     * @param patchUserDTO Обновляемые данные Пользователя
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public void patchUser(String userName, PatchUserDTO patchUserDTO)
             throws IOException, RequestException {
 
@@ -104,6 +145,13 @@ public class User extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Получение данных о всех Пользователях
+     *
+     * @return Данные о всех Пользователях
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public Iterable<GetUserDTO> getUsers()
             throws IOException, RequestException {
 
@@ -117,6 +165,13 @@ public class User extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Удаление Пользователя
+     *
+     * @param userName Имя удаляемого Пользователя
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public void deleteUser(String userName)
             throws IOException, RequestException {
 
@@ -130,6 +185,13 @@ public class User extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Получение настроек Шлюза в отношении присоединения Агентов
+     *
+     * @return Настройки Шлюза в отношении присоединения Агентов
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public AgentEnrollmentSettingsDTO getAgentEnrollmentSettings()
             throws IOException, RequestException {
 
@@ -143,6 +205,13 @@ public class User extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Обновление настроек Шлюза в отношении присоединения Агентов
+     *
+     * @param agentEnrollmentSettingsDTO Настройки Шлюза в отношении присоединения Агентов
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public void putAgentEnrollmentSettings(AgentEnrollmentSettingsDTO agentEnrollmentSettingsDTO)
             throws IOException, RequestException {
 
@@ -156,6 +225,13 @@ public class User extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Получение данных Агентов на присоединение к Шлюзу
+     *
+     * @return Данные Агентов на присоединение к Шлюзу
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public Iterable<GetAgentEnrollmentDTO> getAgentEnrollments()
             throws IOException, RequestException {
 
@@ -169,6 +245,14 @@ public class User extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Обновление данных Агента на присоединение к Шлюзу
+     *
+     * @param agentEnrollmentId       Уникальный идентификатор запроса Агента на присоединение к Шлюзу
+     * @param patchAgentEnrollmentDTO Обновляемые данные запроса Агента на присоединение к Шлюзу
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public void patchAgentEnrollment(long agentEnrollmentId, PatchAgentEnrollmentDTO patchAgentEnrollmentDTO)
             throws IOException, RequestException {
 
@@ -182,6 +266,13 @@ public class User extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Удаление данных Агента на присоединение к Шлюзу
+     *
+     * @param agentEnrollmentId Уникальный идентификатор запроса Агента на присоединение к Шлюзу
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public void deleteAgentEnrollment(long agentEnrollmentId)
             throws IOException, RequestException {
 
@@ -195,6 +286,13 @@ public class User extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Получение данных об Агентах, зарегистрированных в Шлюзе
+     *
+     * @return Данных об Агентах, зарегистрированных в Шлюзе
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public Iterable<GetAgentDTO> getAgents()
             throws IOException, RequestException {
 
@@ -208,6 +306,13 @@ public class User extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Получение данных о Потребителях, зарегистрированных в Шлюзе
+     *
+     * @return Данные о Потребителях, зарегистрированных в Шлюзе
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public Iterable<GetConsumerDTO> getConsumers()
             throws IOException, RequestException {
 
@@ -221,6 +326,14 @@ public class User extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Добавление Потребителя
+     *
+     * @param postConsumerInputDTO Данные Потребителя
+     * @return Токены для доступа Потребителя к Шлюзу
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public AccessRefreshTokensDTO postConsumer(PostConsumerInputDTO postConsumerInputDTO)
             throws IOException, RequestException {
 
@@ -234,6 +347,14 @@ public class User extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Обновление данных Потребителя
+     *
+     * @param consumerId       Уникальный идентификатор Потребителя
+     * @param patchConsumerDTO Обновляемые данные Потребителя
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public void patchConsumer(long consumerId, PatchConsumerDTO patchConsumerDTO)
             throws IOException, RequestException {
 

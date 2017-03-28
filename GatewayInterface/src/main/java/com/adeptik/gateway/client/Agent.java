@@ -18,9 +18,18 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Клиент Шлюза от имени Агента
+ */
 @SuppressWarnings("unused")
 public class Agent extends AccessRefreshGatewayClient {
 
+    /**
+     * Создание экземпляра класса {@link Agent}
+     *
+     * @param gatewayUrl Адрес Шлюза
+     * @param state      Состояние клиента Шлюза
+     */
     Agent(URL gatewayUrl, AccessServiceState state) {
 
         super(
@@ -31,6 +40,14 @@ public class Agent extends AccessRefreshGatewayClient {
                 "x-agent-service");
     }
 
+    /**
+     * Отправка состояния Агента
+     *
+     * @param postAgentStateInputDTO Данные о сосотоянии Агента
+     * @return Задание для Агента
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public AgentJobDTO postState(PostAgentStateInputDTO postAgentStateInputDTO)
             throws IOException, RequestException {
 
@@ -43,6 +60,14 @@ public class Agent extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Принять назначенную для поиска решения Задачу
+     *
+     * @param problemId Уникальный идентификатор Задачи
+     * @return Информация для авторизации решателя данной Задачи
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public TokenDTO acceptAssignment(long problemId)
             throws IOException, RequestException {
 
@@ -55,6 +80,14 @@ public class Agent extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Обновление данных назначения Задачи Агенту
+     *
+     * @param problemId          Уникальный идентификатор Задачи
+     * @param patchAssignmentDTO Данные для обновления назначения Задачи Агенту
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public void patchAssignment(long problemId, PatchAssignmentDTO patchAssignmentDTO)
             throws IOException, RequestException {
 
@@ -67,6 +100,15 @@ public class Agent extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Получение Определения алгоритма
+     *
+     * @param algorithmId   Уникальный идентификатор Алгоритма
+     * @param runtimes      Поддерживаемые Среды исполнения
+     * @param resultHandler Обработчик получения Определения алгоритма
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public void getAlgorithmDefinition(long algorithmId, String[] runtimes, StreamHandler resultHandler)
             throws IOException, RequestException {
 
@@ -95,6 +137,14 @@ public class Agent extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Получение Определения задачи
+     *
+     * @param problemId     Уникальный идентификатор Задачи
+     * @param resultHandler Обработчик получения Определения задачи
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public void getProblemDefinition(long problemId, StreamHandler resultHandler)
             throws IOException, RequestException {
 
@@ -110,6 +160,14 @@ public class Agent extends AccessRefreshGatewayClient {
         }
     }
 
+    /**
+     * Отправка состояния Определения алгоритма на Агенте
+     *
+     * @param algorithmId          Уникальный идентификатор Алгоритма
+     * @param putAlgorithmStateDTO Данные о состоянии Определения алгоритма на Агенте
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public void putAlgorithm(long algorithmId, PutAlgorithmStateDTO putAlgorithmStateDTO)
             throws IOException, RequestException {
 

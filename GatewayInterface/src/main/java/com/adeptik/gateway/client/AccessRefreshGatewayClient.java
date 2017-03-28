@@ -13,6 +13,10 @@ import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Клиент Шлюза с авторизацией с использованием токена доступа и токена обновления.
+ * Обновление токена доступа осуществляется автоматически.
+ */
 @SuppressWarnings("WeakerAccess")
 public abstract class AccessRefreshGatewayClient extends GatewayClient<AccessServiceState> implements Closeable {
 
@@ -29,6 +33,15 @@ public abstract class AccessRefreshGatewayClient extends GatewayClient<AccessSer
         }
     };
 
+    /**
+     * Создание экземпляра класса {@link AccessRefreshGatewayClient}
+     *
+     * @param gatewayUrl        Адрес Шлюза
+     * @param state             Состояние Агента
+     * @param refreshTokenUri   Путь запроса обновления токена доступа
+     * @param accessSchemeWord  Имя схемы авторизации для доступа к шлюзу
+     * @param serviceSchemeWord Имя схемы авторизации для доступа к шлюзу с целью выполнения служебных операций
+     */
     protected AccessRefreshGatewayClient(URL gatewayUrl,
                                          AccessServiceState state,
                                          String refreshTokenUri,
@@ -47,12 +60,22 @@ public abstract class AccessRefreshGatewayClient extends GatewayClient<AccessSer
         refreshToken();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() throws IOException {
         _refreshTimer.cancel();
         _refreshTimer.purge();
     }
 
+    /**
+     * Создание построителя HTTP-запроса, в который добавлены необходимые заголовки авторизации
+     *
+     * @param requestUri Путь к методу HTTP
+     * @return Построитель HTTP-запроса
+     * @throws MalformedURLException Некорректный путь к методу HTTp
+     */
     protected Request.Builder createAuthorizedRequestBuilder(String requestUri)
             throws MalformedURLException {
 

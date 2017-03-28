@@ -13,14 +13,30 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Клиент Шлюза от имени потенциального Агента
+ */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class AgentEnrollment extends GatewayClient<AccessState> {
 
+    /**
+     * Создание экземпляра класса {@link AgentEnrollment}
+     *
+     * @param gatewayUrl  Адрес Шлюза
+     * @param accessState Состояние клиента Шлюза
+     */
     protected AgentEnrollment(URL gatewayUrl, AccessState accessState) {
 
         super(gatewayUrl, accessState, AccessState.class);
     }
 
+    /**
+     * Отправка запроса Агента на присоединение к Шлюзу
+     *
+     * @param postAgentEnrollmentInputDTO Данные запроса Агента на присоединение к Шлюзу
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public void postEnrollment(PostAgentEnrollmentInputDTO postAgentEnrollmentInputDTO)
             throws IOException, RequestException {
 
@@ -39,6 +55,14 @@ public class AgentEnrollment extends GatewayClient<AccessState> {
         onStateChanged();
     }
 
+    /**
+     * Завершение регистрации Агента в Шлюзе
+     *
+     * @param postAgentInputDTO Данные для регистрации агента в шлюзе
+     * @return Токены для доступа Агента к Шлюзу
+     * @throws IOException      Ошибка ввода-вывода
+     * @throws RequestException Ошибка при выполнеии HTTP-запроса
+     */
     public AccessRefreshTokensDTO enroll(PostAgentInputDTO postAgentInputDTO)
             throws IOException, RequestException {
 
