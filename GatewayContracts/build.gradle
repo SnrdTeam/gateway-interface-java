@@ -1,6 +1,6 @@
 
 group 'com.adeptik'
-version '1.0.2-SNAPSHOT'
+version '1.0.2'
 
 apply plugin: 'java'
 apply from: 'https://raw.githubusercontent.com/SnrdTeam/gradle-utils/master/ossrh-publish.gradle'
