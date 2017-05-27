@@ -1,7 +1,5 @@
 package com.adeptik.gateway.contracts.dto.agents;
 
-import com.adeptik.gateway.contracts.model.NotificationMode;
-
 /**
  * Данные для регистрации агента в шлюзе
  */
@@ -13,7 +11,7 @@ public class PostAgentInputDTO {
     public long AgentHeartbeatPeriod;
 
     /**
-     * Способ оповещения об изменениях
+     * Настройки оповещения Агента об изменениях
      */
-    public NotificationMode NotificationMode;
+    public AgentNotificationSettingsDTO NotificationSettings;
 }
