@@ -2,7 +2,7 @@ package com.adeptik.gateway.contracts.dto.agents;
 
 import com.adeptik.gateway.contracts.model.NotificationMode;
 
-import java.net.URL;
+import java.net.URI;
 
 /**
  * Настройки оповещения Агента об изменениях
@@ -17,7 +17,7 @@ public class AgentNotificationSettingsDTO {
     /**
      * В режиме уведомлений  {@link NotificationMode#AgentAsServer} - адрес, по которому Шлюз отправляет запросы Агенту
      */
-    public URL Url;
+    public URI Uri;
 
     /**
      * В режиме уведомлений {@link NotificationMode#AgentAsServer} - специальная последовательность символов, выданная агентом,
