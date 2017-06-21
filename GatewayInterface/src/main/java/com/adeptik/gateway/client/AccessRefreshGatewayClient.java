@@ -25,13 +25,6 @@ public abstract class AccessRefreshGatewayClient extends GatewayClient<AccessSer
     private final String _serviceSchemeWord;
 
     private final Timer _refreshTimer = new Timer("Token Refresh Timer");
-    private final TimerTask _refreshTimerTask = new TimerTask() {
-
-        @Override
-        public void run() {
-            refreshToken();
-        }
-    };
 
     /**
      * Создание экземпляра класса {@link AccessRefreshGatewayClient}
@@ -106,7 +99,13 @@ public abstract class AccessRefreshGatewayClient extends GatewayClient<AccessSer
             throw new RuntimeException(e);
         }
 
-        _refreshTimer.schedule(_refreshTimerTask, Math.max(500, (_state.getAccessTokenValidTo() - now) / 2));
+        _refreshTimer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                refreshToken();
+            }
+        }, Math.max(500, (_state.getAccessTokenValidTo() - now) / 2));
     }
 
     private Request.Builder createAuthorizedRequestBuilder(String requestUri, String schemeWord, String token)
