@@ -34,27 +34,29 @@ public class User extends AccessRefreshGatewayClient {
     /**
      * Создание экземпляра класса {@link User}
      *
-     * @param gatewayUrl Адрес Шлюза
-     * @param state      Состояние клиента Шлюза
+     * @param gatewayUrl   Адрес Шлюза
+     * @param state        Состояние клиента Шлюза
+     * @param stateHandler Обработчик изменения состояния клиента Шлюза
      */
-    protected User(URL gatewayUrl, AccessServiceState state) {
+    protected User(URL gatewayUrl, AccessServiceState state, StateHandler stateHandler) {
 
-        super(gatewayUrl, state, Routes.UserBaseUrl + "/token", "x-user", "x-user-service");
+        super(gatewayUrl, state, Routes.UserBaseUrl + "/token", "x-user", "x-user-service", stateHandler);
     }
 
     /**
      * Создание экземпляра класса {@link User}
      *
-     * @param gatewayUrl Адрес Шлюза
-     * @param userName   Имя Пользователя для авторизации в Шлюзе
-     * @param password   Пароль Пользователя для авторизации в Шлюзе
+     * @param gatewayUrl   Адрес Шлюза
+     * @param userName     Имя Пользователя для авторизации в Шлюзе
+     * @param password     Пароль Пользователя для авторизации в Шлюзе
+     * @param stateHandler Обработчик изменения состояния клиента Шлюза
      * @throws IOException      Ошибка ввода-вывода
      * @throws RequestException Ошибка при выполнеии HTTP-запроса
      */
-    protected User(URL gatewayUrl, String userName, String password)
+    protected User(URL gatewayUrl, String userName, String password, StateHandler stateHandler)
             throws IOException, RequestException {
 
-        this(gatewayUrl, new AccessServiceState());
+        this(gatewayUrl, new AccessServiceState(), stateHandler);
         signIn(userName, password);
     }
 

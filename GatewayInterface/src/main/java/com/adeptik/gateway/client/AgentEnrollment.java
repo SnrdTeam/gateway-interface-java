@@ -22,12 +22,13 @@ public class AgentEnrollment extends GatewayClient<AccessState> {
     /**
      * Создание экземпляра класса {@link AgentEnrollment}
      *
-     * @param gatewayUrl  Адрес Шлюза
-     * @param accessState Состояние клиента Шлюза
+     * @param gatewayUrl   Адрес Шлюза
+     * @param stateHandler Обработчик изменения состояния клиента Шлюза
+     * @param accessState  Состояние клиента Шлюза
      */
-    protected AgentEnrollment(URL gatewayUrl, AccessState accessState) {
+    protected AgentEnrollment(URL gatewayUrl, AccessState accessState, StateHandler stateHandler) {
 
-        super(gatewayUrl, accessState, AccessState.class);
+        super(gatewayUrl, accessState, stateHandler, AccessState.class);
     }
 
     /**

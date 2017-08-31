@@ -25,12 +25,13 @@ public class Consumer extends AccessRefreshGatewayClient {
     /**
      * Создание экземпляра класса {@link Consumer}
      *
-     * @param gatewayUrl Адрес Шлюза
-     * @param state      Состояние клиента Шлюза
+     * @param gatewayUrl   Адрес Шлюза
+     * @param state        Состояние клиента Шлюза
+     * @param stateHandler Обработчик изменения состояния клиента Шлюза
      */
-    protected Consumer(URL gatewayUrl, AccessServiceState state) {
+    protected Consumer(URL gatewayUrl, AccessServiceState state, StateHandler stateHandler) {
 
-        super(gatewayUrl, state, Routes.ConsumerBaseUrl + "/token", "x-consumer", "x-consumer-service");
+        super(gatewayUrl, state, Routes.ConsumerBaseUrl + "/token", "x-consumer", "x-consumer-service", stateHandler);
     }
 
     /**

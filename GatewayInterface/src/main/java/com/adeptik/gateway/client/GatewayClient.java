@@ -23,8 +23,10 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * Базовый класс клиента шлюза
@@ -47,16 +49,17 @@ public abstract class GatewayClient<TState> {
     private final URL _gatewayUrl;
     protected final TState _state;
 
-    private StateHandler _stateHandler;
+    private StateHandler<TState> _stateHandler;
 
     /**
      * Создание экземпляра класса {@link GatewayClient}
      *
-     * @param gatewayUrl Адрес Шлюза
-     * @param state      Состояние клиента Шлюза
-     * @param stateClass Класс типа состояния клиента Шлюза
+     * @param gatewayUrl   Адрес Шлюза
+     * @param state        Состояние клиента Шлюза
+     * @param stateHandler Обработчик изменения состояния клиента Шлюза
+     * @param stateClass   Класс типа состояния клиента Шлюза
      */
-    protected GatewayClient(URL gatewayUrl, TState state, Class<TState> stateClass) {
+    protected GatewayClient(URL gatewayUrl, TState state, StateHandler<TState> stateHandler, Class<TState> stateClass) {
 
         if (gatewayUrl == null)
             throw new IllegalArgumentException("gatewayUrl could not be null");
@@ -70,6 +73,8 @@ public abstract class GatewayClient<TState> {
         } catch (InstantiationException | IllegalAccessException e) {
             throw new IllegalArgumentException("stateClass is invalid. Could not create new instance", e);
         }
+
+        _stateHandler = stateHandler;
     }
 
     /**
@@ -82,16 +87,6 @@ public abstract class GatewayClient<TState> {
     }
 
     /**
-     * Установка обработчика изменения состояния клиента Шлюза
-     *
-     * @param stateHandler Обработчик изменения состояния клиента Шлюза
-     */
-    public void setStateHandler(StateHandler stateHandler) {
-
-        _stateHandler = stateHandler;
-    }
-
-    /**
      * Вызывается при изменении состояния клиента Шлюза
      *
      * @throws IOException Ошибка ввода-вывода
@@ -100,76 +95,81 @@ public abstract class GatewayClient<TState> {
             throws IOException {
 
         if (_stateHandler != null)
-            _stateHandler.onStateChanged();
+            _stateHandler.onStateChanged(getState());
     }
 
 
     /**
      * Создание клиента шлюза от имени потенциального агента
      *
-     * @param gatewayUrl Адрес шлюза
-     * @param state      Состояние клиента
+     * @param gatewayUrl   Адрес шлюза
+     * @param state        Состояние клиента
+     * @param stateHandler Обработчик изменения состояния клиента Шлюза
      * @return Клиент Шлюза от имени потенциального Агента
      */
-    public static AgentEnrollment asAgentEnrollment(URL gatewayUrl, AccessState state) {
+    public static AgentEnrollment asAgentEnrollment(URL gatewayUrl, AccessState state, StateHandler<AccessState> stateHandler) {
 
-        return new AgentEnrollment(gatewayUrl, state);
+        return new AgentEnrollment(gatewayUrl, state, stateHandler);
     }
 
     /**
      * Создание клиента Шлюза от имени Агента.
      * Данный клиент должен использоваться в единственном экземпляре для каждого Шлюза, т.к. в нем происходит автоматическое обновление токена доступа.
      *
-     * @param gatewayUrl Адрес Шлюза
-     * @param state      Состояние клиента
+     * @param gatewayUrl   Адрес Шлюза
+     * @param state        Состояние клиента
+     * @param stateHandler Обработчик изменения состояния клиента Шлюза
      * @return Клиент Шлюза от имени Агента
      */
-    public static Agent asAgent(URL gatewayUrl, AccessServiceState state) {
+    public static Agent asAgent(URL gatewayUrl, AccessServiceState state, AccessRefreshGatewayClient.StateHandler stateHandler) {
 
-        return new Agent(gatewayUrl, state);
+        return new Agent(gatewayUrl, state, stateHandler);
     }
 
     /**
      * Создание клиента Шлюза от имени Пользователя.
      * Данный клиент должен использоваться в единственном экземпляре для каждого Шлюза, т.к. в нем происходит автоматическое обновление токена доступа.
      *
-     * @param gatewayUrl Адрес Шлюза
-     * @param state      Состояние клиента
+     * @param gatewayUrl   Адрес Шлюза
+     * @param state        Состояние клиента
+     * @param stateHandler Обработчик изменения состояния клиента Шлюза
      * @return Клиент Шлюза от имени Пользователя
      */
-    public static User asUser(URL gatewayUrl, AccessServiceState state) {
+    public static User asUser(URL gatewayUrl, AccessServiceState state, AccessRefreshGatewayClient.StateHandler stateHandler) {
 
-        return new User(gatewayUrl, state);
+        return new User(gatewayUrl, state, stateHandler);
     }
 
     /**
      * Создание клиента Шлюза от имени Пользователя.
      * Данный клиент должен использоваться в единственном экземпляре для каждого Шлюза, т.к. в нем происходит автоматическое обновление токена доступа.
      *
-     * @param gatewayUrl Адрес Шлюза
-     * @param userName   Имя Пользователя для авторизации в Шлюзе
-     * @param password   Пароль Пользователя для авторизации в Шлюзе
+     * @param gatewayUrl   Адрес Шлюза
+     * @param userName     Имя Пользователя для авторизации в Шлюзе
+     * @param password     Пароль Пользователя для авторизации в Шлюзе
+     * @param stateHandler Обработчик изменения состояния клиента Шлюза
      * @return Клиент Шлюза от имени Пользователя
      * @throws IOException      Ошибка ввода-вывода
      * @throws RequestException Ошибка выполнения HTTP-запроса
      */
-    public static User asUser(URL gatewayUrl, String userName, String password)
+    public static User asUser(URL gatewayUrl, String userName, String password, AccessRefreshGatewayClient.StateHandler stateHandler)
             throws IOException, RequestException {
 
-        return new User(gatewayUrl, userName, password);
+        return new User(gatewayUrl, userName, password, stateHandler);
     }
 
     /**
      * Создание клиента Шлюза от имени Потребителя.
      * Данный клиент должен использоваться в единственном экземпляре для каждого Шлюза, т.к. в нем происходит автоматическое обновление токена доступа.
      *
-     * @param gatewayUrl Адрес Шлюза
-     * @param state      Состояние клиента
+     * @param gatewayUrl   Адрес Шлюза
+     * @param state        Состояние клиента
+     * @param stateHandler Обработчик изменения состояния клиента Шлюза
      * @return Клиент Шлюза от имени Потребителя
      */
-    public static Consumer asConsumer(URL gatewayUrl, AccessServiceState state) {
+    public static Consumer asConsumer(URL gatewayUrl, AccessServiceState state, AccessRefreshGatewayClient.StateHandler stateHandler) {
 
-        return new Consumer(gatewayUrl, state);
+        return new Consumer(gatewayUrl, state, stateHandler);
     }
 
 
@@ -364,21 +364,22 @@ public abstract class GatewayClient<TState> {
      */
     protected long now() {
 
-        return Calendar.getInstance().getTimeInMillis();
+        return Calendar.getInstance(TimeZone.getTimeZone(ZoneOffset.UTC)).getTimeInMillis();
     }
 
 
     /**
      * Обработчик изменения состояния клиента Шлюза
      */
-    public interface StateHandler {
+    public interface StateHandler<TState> {
 
         /**
          * Вызывается при изменении состояния клиента Шлюза
          *
+         * @param state Новое состояние клиента Шлюза
          * @throws IOException Ошибка ввода-вывода
          */
-        void onStateChanged()
+        void onStateChanged(TState state)
                 throws IOException;
     }
 }

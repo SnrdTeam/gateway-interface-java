@@ -27,17 +27,19 @@ public class Agent extends AccessRefreshGatewayClient {
     /**
      * Создание экземпляра класса {@link Agent}
      *
-     * @param gatewayUrl Адрес Шлюза
-     * @param state      Состояние клиента Шлюза
+     * @param gatewayUrl   Адрес Шлюза
+     * @param state        Состояние клиента Шлюза
+     * @param stateHandler Обработчик изменения состояния клиента Шлюза
      */
-    Agent(URL gatewayUrl, AccessServiceState state) {
+    Agent(URL gatewayUrl, AccessServiceState state, StateHandler stateHandler) {
 
         super(
                 gatewayUrl,
                 state,
                 Routes.AgentBaseUrl + "/token",
                 "x-agent",
-                "x-agent-service");
+                "x-agent-service",
+                stateHandler);
     }
 
     /**

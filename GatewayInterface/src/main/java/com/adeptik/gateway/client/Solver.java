@@ -19,12 +19,13 @@ public class Solver extends GatewayClient<AccessState> {
     /**
      * Создание экземпляра класса {@link Solver}
      *
-     * @param gatewayUrl Адрес Шлюза
-     * @param state      Состояние клиента Шлюза
+     * @param gatewayUrl   Адрес Шлюза
+     * @param state        Состояние клиента Шлюза
+     * @param stateHandler Обработчик изменения состояния клиента Шлюза
      */
-    protected Solver(URL gatewayUrl, AccessState state) {
+    protected Solver(URL gatewayUrl, AccessState state, StateHandler<AccessState> stateHandler) {
 
-        super(gatewayUrl, state, AccessState.class);
+        super(gatewayUrl, state, stateHandler, AccessState.class);
     }
 
     /**
